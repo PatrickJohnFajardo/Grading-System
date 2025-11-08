@@ -1,317 +1,132 @@
-<h1>Grading System (PHP + MySQL)<h1>
+🎓 Grading System (PHP + MySQL)
 
-A lightweight grading system with Admin and Student modules, Subjects management, and CSV Import/Export tools. Runs locally via XAMPP (Apache + MySQL).
+A simple web-based Grading System built with PHP and MySQL.
+It lets admins manage students, subjects, and grades — all running locally using XAMPP.
 
-📁 Project Structure
-/admin
-  index.php
-  login.php
-  logout.php
+🧰 What You Need
 
-/students
-  add.php
-  edit.php
-  delete.php
-  index.php
-  view.php
+XAMPP (for Apache + PHP + MySQL) → Download Here
 
-/subjects
-  add.php
-  edit.php
-  delete.php
-  index.php
+A browser (Chrome, Firefox, etc.)
 
-/includes
-  admin_header.php
-  student_header.php
-  footer.php
-  (plus: dashboard.php, login.php, logout.php if present)
+(Optional) Git, if you want to clone instead of downloading ZIP.
 
-/config
-  auth.php
-  config.php
-  db.php
+📥 How to Set Up
+1️⃣ Download or Clone the Project
 
-/assets
-  custom.css
-  custom.js
+Option 1 — ZIP
 
-/database
-  schema.sql
+Click Code → Download ZIP
 
-/uploads
-  .htaccess (see note below)
-  
-/ (project root)
-  index.php
-  manage.php
-  import.php
-  export.php
-  logout.php
+Extract the folder
 
+Option 2 — Git
 
-Styling/scripts live in assets/custom.css and assets/custom.js.
-Database schema & seed data: database/schema.sql.
-
-🧰 Requirements
-
-XAMPP 8.x (includes Apache, PHP, MySQL) – Windows/macOS/Linux
-
-Browser: Chrome/Firefox/Edge
-
-(Optional) Git
-
-XAMPP defaults
-
-MySQL user: root
-
-MySQL password: (empty)
-
-Host: localhost
-
-⬇️ Get the Code
-
-Option A — Clone
-
-cd ~
 git clone https://github.com/<your-username>/<your-repo>.git
 
 
-Option B — ZIP
+Move the folder into:
 
-On GitHub: Code → Download ZIP
+C:\xampp\htdocs\GradingSystem
 
-Extract locally
-
-Move the project into XAMPP web root:
-
-Windows: C:\xampp\htdocs\GradingSystem
-
-macOS: /Applications/XAMPP/htdocs/GradingSystem
-
-Linux: /opt/lampp/htdocs/GradingSystem
-
-(You can rename the folder; remember it for the URL below.)
-
-▶️ Start XAMPP
+2️⃣ Start XAMPP
 
 Open XAMPP Control Panel
 
-Click Start for Apache and MySQL
+Start Apache and MySQL
 
-Open phpMyAdmin: http://localhost/phpmyadmin/
+3️⃣ Import the Database
 
-🗄️ Create & Import the Database
+Go to http://localhost/phpmyadmin/
 
-In phpMyAdmin → Databases → Create, name it: grading_system
+Click Databases → Create database → name it grading_system
 
-Click the new DB → Import
+Open it → Import → Choose File → select database/schema.sql
 
-Choose /database/schema.sql → Go
+Click Go
 
-What schema.sql creates (summary):
+4️⃣ Configure the Connection
 
-Tables: admins, students, semesters, subjects, grades, audit_logs
+Open this file:
 
-Sample data for admins, semesters, students, subjects
+config/db.php
 
-Grade calculation (30% prelim, 30% midterm, 40% final) with letter/remarks updates
 
-The script uses grading_system and seeds default rows (you can edit later).
+Set these values:
 
-⚙️ Configure the App
-
-Open /config/db.php (or config.php if that’s your actual connection file) and set your local DB credentials:
-
-<?php
 $DB_HOST = 'localhost';
 $DB_NAME = 'grading_system';
 $DB_USER = 'root';
-$DB_PASS = ''; // XAMPP default: empty
-
-$mysqli = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
-if ($mysqli->connect_errno) {
-    die('MySQL connection failed: ' . $mysqli->connect_error);
-}
+$DB_PASS = '';
 
 
-If your app needs a base URL for redirects:
+Save it.
 
-$BASE_URL = 'http://localhost/GradingSystem/';
+5️⃣ Run the App
 
-
-Check config/auth.php if there are session/role settings to adjust.
-
-🌐 Run the App
-
-Open your browser and go to:
+Go to your browser and open:
 
 http://localhost/GradingSystem/
 
+🔐 Default Logins
 
-Typical flow:
+Admin
 
-Admin logs in via /admin/login.php (or /admin/ if it redirects)
+Username: admin
 
-Manage students, subjects, and grades
-
-Use import.php/export.php for CSV workflows (if included in your root)
-
-🔐 Default Logins (from seed data)
-
-Admins
-
-Username: admin — Password: Admin123!
-
-Username: principal — Password: Admin123!
+Password: Admin123!
 
 Students
 
-Example students are seeded (e.g., 2024-0001, 2024-0002, etc.).
-If your app uses student login by email/ID, the seeded password is: Student123!
+Password: Student123!
 
-After first login, change passwords in your DB or via any available UI.
+📂 Folder Overview
+Folder	Purpose
+admin	Admin dashboard, login/logout
+students	Manage students & profiles
+subjects	Manage subject info
+includes	Shared header/footer files
+config	DB & auth setup
+assets	CSS & JS files
+database	SQL schema file
+uploads	File uploads folder
+🎨 UI & Scripts
 
-🧭 Modules Overview
+assets/custom.css – Styles (maroon, yellow, white theme)
 
-Admin Module (/admin)
+assets/custom.js – JS features (form validation, alert timer, grade calculator, CSV export)
 
-Login/Logout
+⚠️ Common Problems
 
-Dashboard, manage Students/Subjects
+Blank page or error?
+→ Add this at the top of index.php:
 
-Grades overview & actions (depending on your UI)
-
-Students Module (/students)
-
-CRUD for student profiles (add/edit/delete/view)
-
-Subjects Module (/subjects)
-
-CRUD for subjects (add/edit/delete/list)
-
-Utilities
-
-/import.php — import (e.g., CSV → database)
-
-/export.php — export table data to CSV
-
-Shared layout/partials in /includes (e.g., headers & footer).
-
-🖼️ Assets & UI
-
-/assets/custom.css — project theme (maroon/yellow/white), Bootstrap-friendly overrides
-
-/assets/custom.js — UI helpers:
-
-Auto-hide alerts (5s)
-
-Delete confirmation
-
-Client-side form validation
-
-Grade calculator (prelim/midterm/final → final grade, letter, remarks)
-
-CSV export helper
-
-Toast utility
-
-Basic loading state helper
-
-📤 Uploads
-
-Files go under /uploads/
-
-Ensure the folder is writable by the web server
-
-Windows: usually fine inside htdocs
-
-macOS/Linux: chmod -R 755 uploads (or 775/777 for local dev if needed)
-
-Note: You included a file named .htacess (missing one “c”). If you intended to use Apache rules, rename to .htaccess. If it’s for download protection (e.g., deny from all), add rules accordingly and make sure Apache AllowOverride is enabled for your vhost (XAMPP has it on by default).
-
-🧪 Quick Test Checklist
-
-✅ Apache + MySQL running
-
-✅ grading_system DB exists
-
-✅ schema.sql imported without errors
-
-✅ config/db.php matches your DB name & credentials
-
-✅ Visit /admin/login.php → login as admin / Admin123!
-
-✅ Add a subject, add a student, add/edit some grades
-
-✅ Try export to CSV and import (if UI exists)
-
-🚑 Troubleshooting
-
-Blank page / HTTP 500
-
-// Add to index.php (top) temporarily for debugging:
 ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-MySQL “Access denied (1045)”
+Can’t log in?
+→ Re-import schema.sql and use the default credentials.
 
-Use XAMPP defaults: user root, no password
+Apache won’t start?
+→ Something’s using port 80. Stop Skype/IIS or change Apache port in XAMPP config.
 
-Make sure DB name in db.php is exactly grading_system
+🌍 Optional: Upload Online
 
-Confirm MySQL service is running
+If you want to host this:
 
-SQL import fails / large file
+Get free PHP hosting (e.g., 000webhost.com
+)
 
-In php.ini, bump:
+Upload all files
 
-upload_max_filesize
+Create a MySQL DB on the host
 
-post_max_size
+Import schema.sql
 
-max_execution_time
+Update config/db.php with the new credentials
 
-Restart Apache after changes
+👨‍💻 Credits
 
-Apache won’t start (port conflict)
-
-Stop IIS/Skype/VMware etc.
-
-Or change Apache ports in XAMPP → Apache Config → httpd.conf (Listen 80) and httpd-ssl.conf (Listen 443)
-
-GitHub Pages shows 404
-
-Pages doesn’t run PHP. Use XAMPP locally or deploy to a PHP host.
-
-🌍 Deploying Online (Optional)
-
-Use a PHP host that supports MySQL:
-
-Free: 000webhost, InfinityFree
-
-Paid: Hostinger, Namecheap, GoDaddy
-
-Steps:
-
-Upload project files to /public_html (or the host’s web root)
-
-Create a MySQL database in hosting control panel
-
-Import database/schema.sql via host’s phpMyAdmin
-
-Update /config/db.php with host credentials
-
-If using .htaccess, ensure AllowOverride is on and rules are supported
-
-🤝 Contributing
-
-Fork the repo
-
-Create a feature branch
-
-Commit with clear messages
-
-Open a Pull Request
+Made by Patrick John Fajardo
+For educational and local testing purposes.
