@@ -17,7 +17,7 @@ Click Code → Download ZIP
 Extract the folder
 
 Option 2 — Git
-git clone https://github.com/<your-username>/<your-repo>.git
+git clone https://github.com/MarkerBrownDecide/Grading-System)
 Move the folder into:
 C:\xampp\htdocs\GradingSystem
 
